@@ -27,7 +27,7 @@ class HomeController {
 
   void increment() {
     final count = countModel.value + 1;
-    countModel = CountModel(value: count);
+    countModel = countModel.copyWith(value: count);
     saveCount();
   }
 
