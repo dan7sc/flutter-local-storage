@@ -22,6 +22,13 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  Future<void> getCount() async {
+    final instance = await SharedPreferences.getInstance();
+    final response = instance.getInt("contador");
+    count = response ?? 0;
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,6 +42,7 @@ class _HomePageState extends State<HomePage> {
         child: Icon(Icons.add),
         onPressed: () {
           count++;
+          saveCount();
           setState(() {});
         },
       ),
