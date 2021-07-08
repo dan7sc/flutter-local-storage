@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
+import 'home_controller.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -9,29 +10,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  var count = 0;
-
-  Future<void> saveCount() async {
-    final instance = await SharedPreferences.getInstance();
-    final response = await instance.setInt("contador", count);
-
-    if (response) {
-      print("Salvo com sucesso");
-    } else {
-      print("Não foi possível realizar essa operação");
-    }
-  }
-
-  Future<void> getCount() async {
-    final instance = await SharedPreferences.getInstance();
-    final response = instance.getInt("contador");
-    count = response ?? 0;
-    setState(() {});
-  }
+  final controller = HomeController();
 
   @override
   void initState() {
-    getCount();
+    controller.getCount();
     super.initState();
   }
 
@@ -42,13 +25,13 @@ class _HomePageState extends State<HomePage> {
         title: Text("Local Storage"),
       ),
       body: Center(
-        child: Text("CONTADOR: $count"),
+        child: Text("CONTADOR: ${controller.count}"),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
-          count++;
-          saveCount();
+          controller.count++;
+          controller.saveCount();
           setState(() {});
         },
       ),
