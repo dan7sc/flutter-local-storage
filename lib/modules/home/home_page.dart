@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -9,6 +10,17 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   var count = 0;
+
+  Future<void> saveCount() async {
+    final instance = await SharedPreferences.getInstance();
+    final response = await instance.setInt("contador", count);
+
+    if (response) {
+      print("Salvo com sucesso");
+    } else {
+      print("Não foi possível realizar essa operação");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
