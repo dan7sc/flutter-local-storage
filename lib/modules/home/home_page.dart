@@ -9,6 +9,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   var count = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,6 +18,13 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Center(
         child: Text("CONTADOR: $count"),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          count++;
+          setState(() {});
+        },
       ),
     );
   }
