@@ -1,28 +1,43 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '/shared/models/count_model.dart';
+
 class HomeController {
   final Function onUpdate;
-  var count = 0;
+  var countModel = CountModel(value: 0);
 
   HomeController({required this.onUpdate});
 
   Future<void> saveCount() async {
-    final instance = await SharedPreferences.getInstance();
-    final response = await instance.setInt("contador", count);
+    try {
+      final instance = await SharedPreferences.getInstance();
+      final response = await instance.setString("count", countModel.toJson());
 
-    if (response) {
-      print("Salvo com sucesso");
-    } else {
-      print("Não foi possível realizar essa operação");
+      if (response) {
+        print("Salvo com sucesso");
+      } else {
+        print("Não foi possível realizar essa operação");
+      }
+      onUpdate();
+    } catch (e) {
+      print(e);
     }
-    onUpdate();
+  }
+
+  void increment() {
+    final count = countModel.value + 1;
+    countModel = CountModel(value: count);
+    saveCount();
   }
 
   Future<void> getCount() async {
-    await Future.delayed(Duration(seconds: 9));
+    await Future.delayed(Duration(seconds: 5));
     final instance = await SharedPreferences.getInstance();
-    final response = instance.getInt("contador");
-    count = response ?? 0;
-    onUpdate();
+    final response = instance.getString("count");
+    if (response != null) {
+      final count = CountModel.fromJson(response);
+      countModel = count;
+      onUpdate();
+    }
   }
 }
