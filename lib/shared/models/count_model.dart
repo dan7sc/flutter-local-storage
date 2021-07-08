@@ -5,17 +5,14 @@ class CountModel {
 
   CountModel({required this.value});
 
-  String toJson() {
-    return """
-    {
-      "value": $value
-    }
-    """;
-  }
+  String toJson() => jsonEncode(toMap());
 
   static CountModel fromJson(String json) {
-    final map = jsonDecode(json) as Map<String, dynamic>;
-
-    return CountModel(value: map['value']);
+    return fromMap(jsonDecode(json));
   }
+
+  Map<String, dynamic> toMap() => {"value": value};
+
+  static CountModel fromMap(Map<String, dynamic> map) =>
+      CountModel(value: map['value']);
 }
