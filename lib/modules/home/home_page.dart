@@ -10,7 +10,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final controller = HomeController();
+  late HomeController controller = HomeController(onUpdate: () {
+    setState(() {});
+  });
 
   @override
   void initState() {
@@ -32,7 +34,6 @@ class _HomePageState extends State<HomePage> {
         onPressed: () {
           controller.count++;
           controller.saveCount();
-          setState(() {});
         },
       ),
     );
