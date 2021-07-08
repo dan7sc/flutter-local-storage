@@ -5,6 +5,7 @@ import '/shared/models/count_model.dart';
 class HomeController {
   final Function onUpdate;
   var countModel = CountModel(value: 0);
+  var isLoading = false;
 
   HomeController({required this.onUpdate});
 
@@ -31,12 +32,15 @@ class HomeController {
   }
 
   Future<void> getCount() async {
+    isLoading = true;
+    onUpdate();
     await Future.delayed(Duration(seconds: 5));
     final instance = await SharedPreferences.getInstance();
     final response = instance.getString("count");
     if (response != null) {
       final count = CountModel.fromJson(response);
       countModel = count;
+      isLoading = false;
       onUpdate();
     }
   }

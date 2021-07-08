@@ -27,7 +27,9 @@ class _HomePageState extends State<HomePage> {
         title: Text("Local Storage"),
       ),
       body: Center(
-        child: Text("CONTADOR: ${controller.countModel.value}"),
+        child: controller.isLoading
+        ? CircularProgressIndicator()
+        : Text("CONTADOR: ${controller.countModel.value}"),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
